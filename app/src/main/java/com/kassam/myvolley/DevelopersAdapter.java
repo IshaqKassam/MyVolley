@@ -1,6 +1,8 @@
 package com.kassam.myvolley;
 
 import android.content.Context;
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,10 @@ public class DevelopersAdapter extends RecyclerView.Adapter<DevelopersAdapter.Vi
 
     private List<DeveloperList> developerList;
     private Context mContext;
+
+    public static final String KEY_NAME = "name";
+    public static final String KEY_IMAGE = "image";
+    public static final String KEY_URL = "url";
 
 
     public DevelopersAdapter(List<DeveloperList> developerList, Context context){
@@ -42,6 +48,18 @@ public class DevelopersAdapter extends RecyclerView.Adapter<DevelopersAdapter.Vi
         Picasso.with(mContext)
                 .load(currentDeveloper.getAvatar_url())
                 .into(holder.avatar_url);
+
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeveloperList developerList1 = developerList.get(position);
+                Intent skipIntent = new Intent(v.getContext(), ProfileActivity.class);
+                skipIntent.putExtra(KEY_NAME, developerList1.getLogin());
+                skipIntent.putExtra(KEY_URL, developerList1.getHtml_url());
+                skipIntent.putExtra(KEY_IMAGE, developerList1.getAvatar_url());
+                v.getContext().startActivity(skipIntent);
+            }
+        });
     }
 
     @Override
