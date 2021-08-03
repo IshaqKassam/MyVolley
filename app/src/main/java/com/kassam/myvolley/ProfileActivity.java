@@ -8,6 +8,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class ProfileActivity extends AppCompatActivity {
 
     @Override
@@ -21,5 +23,15 @@ public class ProfileActivity extends AppCompatActivity {
         TextView developerUrl = findViewById(R.id.developerUrl);
 
         Intent intent = getIntent();
+        final String userName = intent.getStringExtra(DevelopersAdapter.KEY_NAME);
+        String image = intent.getStringExtra(DevelopersAdapter.KEY_IMAGE);
+        final String profileUrl = intent.getStringExtra(DevelopersAdapter.KEY_URL);
+
+        Picasso.with(this)
+                .load(image)
+                .into(profileImageView);
+
+        userNameTextView.setText(userName);
+        developerUrl.setText(profileUrl);
     }
 }
