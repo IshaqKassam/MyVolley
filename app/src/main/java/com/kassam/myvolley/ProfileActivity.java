@@ -3,7 +3,9 @@ package com.kassam.myvolley;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,5 +35,28 @@ public class ProfileActivity extends AppCompatActivity {
 
         userNameTextView.setText(userName);
         developerUrl.setText(profileUrl);
+
+        developerUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = profileUrl;
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+
+        shareProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check this awesome developer " + userName + ", " + profileUrl);
+                Intent chooser = Intent.createChooser(shareIntent, "Share via");
+                if(shareIntent.resolveActivity(getPackageManager()) != null){
+                    startActivity(chooser);
+                }
+            }
+        });
     }
 }
